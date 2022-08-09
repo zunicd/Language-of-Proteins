@@ -33,10 +33,12 @@ def separate_seq(sequence:str) -> str:
 
 
 def csv_to_fasta(csv_file, fasta_file):
-    """ Convert csv fils to fasta files
+    """ Convert csv files to fasta files
 
     Args:
         csv_file: csv formatted file
+        fasta_file: fasta file name to write to;
+                    no such file needs to exist before running this function
 
     Returns:
         fasta_file : fasta formatted file
@@ -47,7 +49,7 @@ def csv_to_fasta(csv_file, fasta_file):
     # Read csv file 
     with open(csv_file) as fin:
         reader = csv.DictReader(fin)
-        # Create ieldnames varaibles - input files have different field names
+        # Create fieldnames variables - input files have different field names
         fnames = reader.fieldnames
         n_lines = len(list(reader))
         PBD_Code = fnames[0]
@@ -65,7 +67,7 @@ def csv_to_fasta(csv_file, fasta_file):
  
             j = 0
             for row in reader:
-                # Read sequences from the file and combine with peviously created keys
+                # Read sequences from the file and combine with previously created keys
                 key = PBD_Code_l[j]
                 Seq[key] = row[Sequence]
                 j += 1
