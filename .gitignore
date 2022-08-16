@@ -133,4 +133,5 @@ dmypy.json
 
 /data/
 data_test/*
+!data_test/data_h5
 !data_test/data_h5/*
