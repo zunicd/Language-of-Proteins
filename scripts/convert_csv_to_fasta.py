@@ -3,8 +3,10 @@
 import csv
 
 def separate_seq(sequence:str) -> str:
-    """ Separate sequence in 60-characters chunks
-         and append new line to each chunk except remaing one
+    """ 1. Separate sequence in 60-characters chunks
+           and append new line to each chunk except remaing one
+        2. Create a fasta header in the format:
+           >{index}|{sequence_id}|{label}
 
     Args:
         sequence : protein sequence from csv file
@@ -57,9 +59,12 @@ def csv_to_fasta(csv_file, fasta_file):
         # Go to the top of the file (due to list(reader))
         fin.seek(0)
         next(fin)
+        # Initialize index
+        idx = 0
         # For files without PBD codes (usually in 1st column)
         if len(fnames) <= 2 and 'sequenc' in PBD_Code.lower():
             Sequence = fnames[0]
+            Label = fnames[1]
             # Create list of sequential protein "names"
             PBD_Code_l = []
             for i in range(1, n_lines+1):
@@ -68,19 +73,23 @@ def csv_to_fasta(csv_file, fasta_file):
             j = 0
             for row in reader:
                 # Read sequences from the file and combine with previously created keys
-                key = PBD_Code_l[j]
-                Seq[key] = row[Sequence]
+                header = f'{j}|{PBD_Code_l[j]}|{row[Label]}'
+                Seq[header] = row[Sequence]
                 j += 1
         # Files with PBD Code in the first column (this should be normal)
         else:
             # Iterate through every row and create key-value pairs
             for row in reader:
-                Seq[row[PBD_Code]] = row[Sequence]
+                Label = fnames[2]
+                header = f'{idx}|{row[PBD_Code]}|{row[Label]}'
+                Seq[header] = row[Sequence]
+                idx += 1
+                
 
     # Write to fasta file
     with open(fasta_file, 'w') as fout:
-        for code, sequence in Seq.items():
+        for header, sequence in Seq.items():
             # Separate sequence in 60-characters chunks
             sequence = separate_seq(sequence)
             # Write code in one line and the sequence below in one or more lines
-            fout.write(f">{code}\n{sequence}\n")
+            fout.write(f">{header}\n{sequence}\n")
