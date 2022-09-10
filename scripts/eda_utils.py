@@ -8,36 +8,40 @@ from Bio.pairwise2 import format_alignment
 def add_protein_features(df: pd.DataFrame, seq_col_name: str) -> pd.DataFrame:
     df = df.copy()
     
+    # Adding length as a feature
+    df["length"] = df[seq_col_name].str.len()
+
     # Make protein analysis object for each sequence
     df["protein_analysis"] = df[seq_col_name].map(ProteinAnalysis)
 
     # Extract protein features from analysis object column
     df["amino_acid_count"] = df["protein_analysis"].apply(lambda x: x.count_amino_acids())
     df["amino_acid_percent"] = df["protein_analysis"].apply(lambda x: x.get_amino_acids_percent())
+    df["aromaticity"] = df["protein_analysis"].apply(lambda x: x.aromaticity())
+    df["isoelectric_point"] = df["protein_analysis"].apply(lambda x: x.isoelectric_point())
+    df["charge_at_pH"] = df["protein_analysis"].apply(lambda x: x.charge_at_pH(7.4)) # average pH in body
 
-    # df["molecular_weight"] = df["protein_analysis"].apply(lambda x: x.molecular_weight()) # X, B===============
+    # The following protein features require us to replace certain non-natural amino acid symbols in the sequence before
+    # applying the function
+
+    # Replace X and B
     df["molecular_weight"] = df[seq_col_name].map(lambda x: x.replace('X', '')).map(lambda x: x.replace('B', '')) \
                                             .map(ProteinAnalysis).map(lambda x: x.molecular_weight())
 
-
-    # df["instability_index"] = df["protein_analysis"].apply(lambda x: x.instability_index()) # U, X, B, O================
+    # Replace X, B, U, and O
     df["instability_index"] = df[seq_col_name].map(lambda x: x.replace('X', '')).map(lambda x: x.replace('B', '')) \
                                             .map(lambda x: x.replace('U', '')).map(lambda x: x.replace('O', '')) \
                                             .map(ProteinAnalysis).map(lambda x: x.instability_index())
 
-    # df["flexibility"] = df["protein_analysis"].apply(lambda x: x.flexibility()) # U, X, B, O==============
+    # Replace X, B, U, and O
     df["flexibility"] = df[seq_col_name].map(lambda x: x.replace('X', '')).map(lambda x: x.replace('B', '')) \
                                             .map(lambda x: x.replace('U', '')).map(lambda x: x.replace('O', '')) \
                                             .map(ProteinAnalysis).map(lambda x: x.flexibility())
 
-    # df["gravy"] = df["protein_analysis"].apply(lambda x: x.gravy()) # U, X, B, O===================
+    # Replace X, B, U, and O
     df["gravy"] = df[seq_col_name].map(lambda x: x.replace('X', '')).map(lambda x: x.replace('B', '')) \
                                             .map(lambda x: x.replace('U', '')).map(lambda x: x.replace('O', '')) \
                                             .map(ProteinAnalysis).map(lambda x: x.gravy())
-
-    df["aromaticity"] = df["protein_analysis"].apply(lambda x: x.aromaticity())
-    df["isoelectric_point"] = df["protein_analysis"].apply(lambda x: x.isoelectric_point())
-    df["charge_at_pH"] = df["protein_analysis"].apply(lambda x: x.charge_at_pH(7.4)) # average pH in body
 
     # Create three columns for helix, turn, and sheet from secondary structure fraction
     df["helix_frac"] = df["protein_analysis"].apply(lambda x: x.secondary_structure_fraction()[0])
