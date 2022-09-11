@@ -1,6 +1,7 @@
 # Script to convert csv files to fasta files
 #
 import csv
+import os
 
 def separate_seq(sequence:str) -> str:
     """ 1. Separate sequence in 60-characters chunks
@@ -66,9 +67,13 @@ def csv_to_fasta(csv_file, fasta_file):
             Sequence = fnames[0]
             Label = fnames[1]
             # Create list of sequential protein "names"
+            # For 'test_data' dataset add string 'ts' before 4 digit number at the end
+            t = ""
+            if 'test_data' in os.path.split(csv_file)[1]:
+                t = 'ts'
             PBD_Code_l = []
             for i in range(1, n_lines+1):
-                PBD_Code_l.append(f"Protein_seq_{i:04d}")
+                PBD_Code_l.append(f"Protein_seq_{t}{i:04d}")
  
             j = 0
             for row in reader:
@@ -85,7 +90,6 @@ def csv_to_fasta(csv_file, fasta_file):
                 Seq[header] = row[Sequence]
                 idx += 1
                 
-
     # Write to fasta file
     with open(fasta_file, 'w') as fout:
         for header, sequence in Seq.items():

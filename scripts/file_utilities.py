@@ -1,4 +1,11 @@
-# File utilities for paths and conversion h5 --> pt
+# Collection of file utilities
+#    file_paths - prepare paths for files and folders
+#    convert_h5_to_pt - convert h5 files to pt files
+#    emb_files_stats - prints stats for embedding folders
+#    read_embeddings - read embeddings from pt files
+#    check_with_df - check our data using DataFrame displaying few rows only
+
+# Import dependencies
 import os
 import h5py
 import torch
@@ -10,12 +17,15 @@ def file_paths(ptmodel, task, file_base, model, pool, data_folder = '../data'):
     """ Prepare paths for files and folders
 
     Args:
-        pt_model: 
-        task: 
-        file_base:
-        model:
-        pool:
-        data_folder:
+        pt_model: pretrained models repositories - ['esm', 'prose']
+        task: protein groups - ['acp', 'amp', 'dna_binding']
+        file_base: ['test', 'train', 'all_data']
+        model: prose - ['prose_dlm, 'prose_mt']
+               esm - ['esm1v_t33_650M_UR90S_1', 'esm1b_t33_650M_UR50S']
+        pool: pooling operations
+                  prose - ['avg', 'max', 'sum']
+                  esm - ['mean']
+        data_folder: root of data folder - ['../data'] default
 
     Returns:
         path_fa: path to fasta file
@@ -83,12 +93,12 @@ def file_paths(ptmodel, task, file_base, model, pool, data_folder = '../data'):
 
 # Converts h5 file to pt files, one per each sequence embedding.
 def convert_h5_to_pt(path_h5, path_pt, pool):
-    """ Convert h5 files to pt files
+    """ Convert h5 files to pt files (used for prose only)
 
     Args:
-        path_h5: path to h5 files (prose only)
+        path_h5: path to h5 files
         path_pt: path to pt files
-        pool: 
+        pool: pooling operation
 
     Returns:
         Saving pt files with embeddings
@@ -106,14 +116,11 @@ def convert_h5_to_pt(path_h5, path_pt, pool):
 # Prints the total size and number of pt files in embedding folders
 def emb_files_stats(path_pt):
     """ Prints stats for embedding folders
-
     Args:
-        path_pt: path to pt files,
-                 used to get the path above
-         
+        path_pt: path to pt files,       
 
     Returns:
-        Prints total size and number of pt files
+        Prints total size and number of pt files per folder
     """
     base = os.path.split(path_pt)[0]
     j = 0
@@ -137,10 +144,10 @@ def read_embeddings(path_fa, path_pt, pool, emb_layer):
     """ Read embeddings from pt files
     Args:
         path_fa: path to fasta file 
-        path_pt: path to pt files
+        path_pt: path to pt files folder
         pool: pooling operations used 
         emb_layer: layer from which embeddings are extracted,
-                   for prose we are using string 'lsyer'
+                   for prose we are using string 'layer'
 
     Returns:
         Xs: an array of embeddings
@@ -159,6 +166,8 @@ def read_embeddings(path_fa, path_pt, pool, emb_layer):
         label = header[-1]
         ye.append(int(label))
         # Extract sequence ids and append to list
+        # Below code is used due to existence of an additional "|" 
+        #  in fasta header for dna_binding test dataset
         seq_id.append(header.split('|', 1)[-1][:-2])
         # Embeddings are stored with the file name from fasta header
         fn = f'{path_pt}/{header[1:]}.pt'
@@ -186,11 +195,11 @@ def check_with_df(Xs, ys, seq_id, n=2):
         n: number of rows to display as head and tail
 
     Returns:
-        Displays datframe with first and last 'n' lines  
+        Displays dataframe with first and last 'n' lines  
     """
-    # Create datframe from Xs and seq_id sirst
+    # Create datframe from Xs and seq_id first
     df = pd.DataFrame(Xs, index=seq_id ).reset_index().rename(columns={'index':'sequence'})
-    # Concatenate it with traget labels dataframe
+    # Concatenate it with target labels dataframe
     df = pd.concat([df, pd.DataFrame(ys, columns =['label'])], axis=1)
     # Display a short version of dataframe
     with pd.option_context('display.max_rows', n*2):
