@@ -4,6 +4,7 @@ import Bio
 from Bio.SeqUtils.ProtParam import ProteinAnalysis
 from Bio import pairwise2
 from Bio.pairwise2 import format_alignment
+import json
 
 def add_protein_features(df: pd.DataFrame, seq_col_name: str) -> pd.DataFrame:
     df = df.copy()
@@ -14,9 +15,9 @@ def add_protein_features(df: pd.DataFrame, seq_col_name: str) -> pd.DataFrame:
     # Make protein analysis object for each sequence
     df["protein_analysis"] = df[seq_col_name].map(ProteinAnalysis)
 
-    # Extract protein features from analysis object column
+    # Extract protein features from analysis object column (Note: X, B, O, and U codes are ignored for several of these functions)
     df["amino_acid_count"] = df["protein_analysis"].apply(lambda x: x.count_amino_acids())
-    df["amino_acid_percent"] = df["protein_analysis"].apply(lambda x: x.get_amino_acids_percent())
+    df["amino_acid_percent"] = df["protein_analysis"].apply(lambda x: x.get_amino_acids_percent()) 
     df["aromaticity"] = df["protein_analysis"].apply(lambda x: x.aromaticity())
     df["isoelectric_point"] = df["protein_analysis"].apply(lambda x: x.isoelectric_point())
     df["charge_at_pH"] = df["protein_analysis"].apply(lambda x: x.charge_at_pH(7.4)) # average pH in body
@@ -67,6 +68,10 @@ def get_avg_amino_acid_count(df: pd.DataFrame, amino_acids: set or list) -> dict
     am_acid_dict = dict.fromkeys(amino_acids, 0)
 
     for am_dict in df.amino_acid_count:
+        # This will handle the case in which this function is used after the dataframe has been loaded from a csv,
+        # as the dictionaries are converted into strings
+        if type(am_dict) == str:
+            am_dict = json.loads(am_dict.replace("\'", "\""))
         for key in am_dict.keys():
             # If amino acid present in sequence
             if am_dict[key] != 0:
@@ -82,6 +87,10 @@ def get_avg_amino_acid_percent(df: pd.DataFrame, amino_acids: set or list) -> di
     am_acid_dict = dict.fromkeys(amino_acids, 0)
 
     for am_dict in df.amino_acid_percent:
+        # This will handle the case in which this function is used after the dataframe has been loaded from a csv,
+        # as the dictionaries are converted into strings
+        if type(am_dict) == str:
+            am_dict = json.loads(am_dict.replace("\'", "\""))
         for key in am_dict.keys():
             # If amino acid present in sequence
             if am_dict[key] != 0:
