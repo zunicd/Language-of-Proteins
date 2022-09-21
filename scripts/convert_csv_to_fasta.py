@@ -4,8 +4,8 @@ import csv
 import os
 
 def separate_seq(sequence:str) -> str:
-    """ 1. Separate sequence in 60-characters chunks
-           and append new line to each chunk except remaing one
+    """ 1. Separate sequence into 60-character segments
+           and append new line to each segment except the last one
         2. Create a fasta header in the format:
            >{index}|{sequence_id}|{label}
 
@@ -17,21 +17,21 @@ def separate_seq(sequence:str) -> str:
     """
     # Initialize new sequence
     fs = ""
-    # Count number of full chunks
-    chunk = 60
-    d = len(sequence) // chunk
-    r = len(sequence) % chunk
+    # Count number of full segments
+    segment = 60
+    d = len(sequence) // segment
+    r = len(sequence) % segment
     new_line = '\n'
-    # Iterate hrough chunks and append new line char - \n
+    # Iterate through segments and append new line character - \n
     for i in range(d):
-        low = i * chunk
-        high = (i + 1) * chunk
-    # If the last line is full chunk, no new line char
+        low = i * segment
+        high = (i + 1) * segment
+    # If the last line is a full segment, no new line character
         if r == 0 and i == d - 1:
             new_line = ""
         fs += f"{sequence[low : high]}{new_line}"
     # Append remainder
-    fs += f"{sequence[d * chunk :]}"
+    fs += f"{sequence[d * segment :]}"
     return fs
 
 
@@ -93,7 +93,7 @@ def csv_to_fasta(csv_file, fasta_file):
     # Write to fasta file
     with open(fasta_file, 'w') as fout:
         for header, sequence in Seq.items():
-            # Separate sequence in 60-characters chunks
+            # Separate sequence into 60-characters segments
             sequence = separate_seq(sequence)
             # Write code in one line and the sequence below in one or more lines
             fout.write(f">{header}\n{sequence}\n")
