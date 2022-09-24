@@ -1,10 +1,13 @@
 # Script to convert csv files to fasta files
 #
 import csv
+import os
 
 def separate_seq(sequence:str) -> str:
-    """ Separate sequence in 60-characters chunks
-         and append new line to each chunk except remaing one
+    """ 1. Separate sequence into 60-character segments
+           and append new line to each segment except the last one
+        2. Create a fasta header in the format:
+           >{index}|{sequence_id}|{label}
 
     Args:
         sequence : protein sequence from csv file
@@ -14,21 +17,21 @@ def separate_seq(sequence:str) -> str:
     """
     # Initialize new sequence
     fs = ""
-    # Count number of full chunks
-    chunk = 60
-    d = len(sequence) // chunk
-    r = len(sequence) % chunk
+    # Count number of full segments
+    segment = 60
+    d = len(sequence) // segment
+    r = len(sequence) % segment
     new_line = '\n'
-    # Iterate hrough chunks and append new line char - \n
+    # Iterate through segments and append new line character - \n
     for i in range(d):
-        low = i * chunk
-        high = (i + 1) * chunk
-    # If the last line is full chunk, no new line char
+        low = i * segment
+        high = (i + 1) * segment
+    # If the last line is a full segment, no new line character
         if r == 0 and i == d - 1:
             new_line = ""
         fs += f"{sequence[low : high]}{new_line}"
     # Append remainder
-    fs += f"{sequence[d * chunk :]}"
+    fs += f"{sequence[d * segment :]}"
     return fs
 
 
@@ -57,30 +60,40 @@ def csv_to_fasta(csv_file, fasta_file):
         # Go to the top of the file (due to list(reader))
         fin.seek(0)
         next(fin)
+        # Initialize index
+        idx = 0
         # For files without PBD codes (usually in 1st column)
         if len(fnames) <= 2 and 'sequenc' in PBD_Code.lower():
             Sequence = fnames[0]
+            Label = fnames[1]
             # Create list of sequential protein "names"
+            # For 'test_data' dataset add string 'ts' before 4 digit number at the end
+            t = ""
+            if 'test_data' in os.path.split(csv_file)[1]:
+                t = 'ts'
             PBD_Code_l = []
             for i in range(1, n_lines+1):
-                PBD_Code_l.append(f"Protein_seq_{i:04d}")
+                PBD_Code_l.append(f"Protein_seq_{t}{i:04d}")
  
             j = 0
             for row in reader:
                 # Read sequences from the file and combine with previously created keys
-                key = PBD_Code_l[j]
-                Seq[key] = row[Sequence]
+                header = f'{j}|{PBD_Code_l[j]}|{row[Label]}'
+                Seq[header] = row[Sequence]
                 j += 1
         # Files with PBD Code in the first column (this should be normal)
         else:
             # Iterate through every row and create key-value pairs
             for row in reader:
-                Seq[row[PBD_Code]] = row[Sequence]
-
+                Label = fnames[2]
+                header = f'{idx}|{row[PBD_Code]}|{row[Label]}'
+                Seq[header] = row[Sequence]
+                idx += 1
+                
     # Write to fasta file
     with open(fasta_file, 'w') as fout:
-        for code, sequence in Seq.items():
-            # Separate sequence in 60-characters chunks
+        for header, sequence in Seq.items():
+            # Separate sequence into 60-characters segments
             sequence = separate_seq(sequence)
             # Write code in one line and the sequence below in one or more lines
-            fout.write(f">{code}\n{sequence}\n")
+            fout.write(f">{header}\n{sequence}\n")
