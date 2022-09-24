@@ -17,12 +17,12 @@ def file_paths(ptmodel, task, file_base, model, pool, data_folder = '../data'):
     """ Prepare paths for files and folders
 
     Args:
-        pt_model: pretrained model repository - ['esm', 'prose']
-        task: protein group - ['acp', 'amp', 'dna_binding']
+        pt_model: pretrained models repositories - ['esm', 'prose']
+        task: protein groups - ['acp', 'amp', 'dna_binding']
         file_base: ['test', 'train', 'all_data']
         model: prose - ['prose_dlm, 'prose_mt']
                esm - ['esm1v_t33_650M_UR90S_1', 'esm1b_t33_650M_UR50S']
-        pool: pooling operation
+        pool: pooling operations
                   prose - ['avg', 'max', 'sum']
                   esm - ['mean']
         data_folder: root of data folder - ['../data'] default
@@ -82,7 +82,7 @@ def file_paths(ptmodel, task, file_base, model, pool, data_folder = '../data'):
         
     file_h5 = f'{sfolder_pt}.h5'
     path_emb = os.path.join(data_path, ptmodel, file_base)
-    # Path for h5 files (prose only)
+    # Psth for h5 files (prose only)
     if ptmodel == 'prose':
         path_h5 = os.path.join(path_emb, file_h5)
     # Path for pt files
@@ -117,7 +117,7 @@ def convert_h5_to_pt(path_h5, path_pt, pool):
 def emb_files_stats(path_pt):
     """ Prints stats for embedding folders
     Args:
-        path_pt: path to pt files       
+        path_pt: path to pt files,       
 
     Returns:
         Prints total size and number of pt files per folder
@@ -140,14 +140,15 @@ def emb_files_stats(path_pt):
         
 
 # Extract embeddings, target labels, sequential ids from pt files
-def read_embeddings(path_fa, path_pt, pool, emb_layer):
+def read_embeddings(path_fa, path_pt, pool, emb_layer, print_dims=True):
     """ Read embeddings from pt files
     Args:
         path_fa: path to fasta file 
         path_pt: path to pt files folder
-        pool: pooling operation used 
+        pool: pooling operations used 
         emb_layer: layer from which embeddings are extracted,
                    for prose we are using string 'layer'
+        print_dims: do not print dimms when modelling 
 
     Returns:
         Xs: an array of embeddings
@@ -167,7 +168,7 @@ def read_embeddings(path_fa, path_pt, pool, emb_layer):
         ye.append(int(label))
         # Extract sequence ids and append to list
         # Below code is used due to existence of an additional "|" 
-        # in the fasta header for dna_binding test dataset
+        #  in fasta header for dna_binding test dataset
         seq_id.append(header.split('|', 1)[-1][:-2])
         # Embeddings are stored with the file name from fasta header
         fn = f'{path_pt}/{header[1:]}.pt'
@@ -175,19 +176,20 @@ def read_embeddings(path_fa, path_pt, pool, emb_layer):
         embs = torch.load(fn)
         # Extract embedding tensor and append it to list
         Xe.append(embs[f'{pool}_representations'][emb_layer])
-    # Concatenate embedding tensors from the list and convert to an array
+    # Concatenate embeding tensors from the list and convert to an array
     Xe = torch.stack(Xe, dim=0).numpy()
     
-    print(f'Shape of embeddings: \t\t{Xe.shape}')
-    print(f'Length of target label list:\t{len(ye)}')
-    print(f'Length of sequential ids list:\t{len(seq_id)}')
-    
+    if print_dims:
+        print(f'Shape of embeddings: \t\t{Xe.shape}')
+        print(f'Length of target label list:\t{len(ye)}')
+        print(f'Length of sequential ids list:\t{len(seq_id)}')
+
     return Xe, ye, seq_id
 
 
 # Check our data after extraction
 def check_with_df(Xs, ys, seq_id, n=2):
-    """Check our data using dataframe displaying only a few rows 
+    """Check our data using dataframe displaying few rows only 
     Args:
         Xs: an array of embeddings
         ys: our target labels
