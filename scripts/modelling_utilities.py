@@ -3,22 +3,11 @@ import os
 import pandas as pd
 import joblib
 
-from sklearn.model_selection import GridSearchCV, train_test_split,  StratifiedKFold
-from sklearn.svm import SVC
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.naive_bayes import GaussianNB
-from sklearn.linear_model import LogisticRegression
-
-from sklearn.pipeline import make_pipeline
-from sklearn.preprocessing import MinMaxScaler
+from sklearn.model_selection import GridSearchCV, StratifiedKFold
 
 # Classification metrics
-from sklearn.metrics import confusion_matrix, classification_report, accuracy_score, f1_score
-
+from sklearn.metrics import accuracy_score, f1_score
 random_state = 10
-
-# Import XGBoost
-from xgboost import XGBClassifier
 
 
 # Function to get embedding folders and fasta files for the task
@@ -68,9 +57,7 @@ def fit_tune_CV(pipe, hyper_params, scorer, path_pt, X_train, y_train, task):
 
     # Create empty dictionary called fitted_models
     fit_models = {}
-    # Create empty dictionary called fitted_models
-    result_d = {}
-
+   
     # Loop through model pipelines, tuning each one and saving it to fitted_models
     for name, pipeline in pipe.items():
         # Create cross-validation object from pipeline and hyperparameters
@@ -87,17 +74,13 @@ def fit_tune_CV(pipe, hyper_params, scorer, path_pt, X_train, y_train, task):
         model_file = f'{model_name}.sav'
         model_path = os.path.join('../../saved_models', task, model_file)
         model = model_name.split('_', 1)[1]
-        # Store model in fitted_models[name]
+        # Store model into dictionary fit_models
         fit_models[model] = grid
-        # Get crossvalidation results 
-        result_d[model] = pd.DataFrame.from_dict(grid.cv_results_)
-        # get the model details from the estimator
-        ##  print(grid.best_estimator_.get_params()["steps"][1][1])
         # Save model
         joblib.dump(grid, model_path)
         # Print '{model} has been fitted and saved'
         print(model, 'has been fitted and saved')
-    return fit_models, result_d
+    return fit_models
 
 # =============
 
@@ -105,14 +88,13 @@ def fit_tune_CV(pipe, hyper_params, scorer, path_pt, X_train, y_train, task):
 def evaluation(fit_models, X_test, y_test):
     lst = []
     for name, model in fit_models.items():
-        # get the model details from the estimator
-        # print(model.best_estimator_.get_params()["steps"][1][1])
-        # print()
+        # Get predictions
         y_pred = model.predict(X_test)
+        # Get cv best score and calculate f1_score and accuracy
         lst.append([name, model.best_score_, f1_score(y_test, y_pred, average='macro'),
                     accuracy_score(y_test, y_pred)])
-
-    eval_df = pd.DataFrame(lst, columns=['model', 'best_score', 'f1_macro', 'accuracy'])
+    # Create evaluation dataframe
+    eval_df = pd.DataFrame(lst, columns=['model', 'cv_best_score', 'f1_macro', 'accuracy'])
     eval_df.set_index('model', inplace = True)
     return eval_df
 
