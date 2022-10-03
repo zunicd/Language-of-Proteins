@@ -13,7 +13,7 @@ import esm
 import pandas as pd
 
 # Prepare file paths
-def file_paths(ptmodel, task, file_base, model, pool, data_folder = '../data'):
+def file_paths(ptmodel, task, file_base, model, pool, data_folder = '../../data'):
     """ Prepare paths for files and folders
 
     Args:
@@ -25,7 +25,7 @@ def file_paths(ptmodel, task, file_base, model, pool, data_folder = '../data'):
         pool: pooling operations
                   prose - ['avg', 'max', 'sum']
                   esm - ['mean']
-        data_folder: root of data folder - ['../data'] default
+        data_folder: root of data folder - ['../../data'] default
 
     Returns:
         path_fa: path to fasta file
