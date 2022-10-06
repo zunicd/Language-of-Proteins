@@ -13,7 +13,7 @@ import esm
 import pandas as pd
 
 # Prepare file paths
-def file_paths(ptmodel, task, file_base, model, pool, data_folder = '../data'):
+def file_paths(ptmodel, task, file_base, model, pool, data_folder = '../../data'):
     """ Prepare paths for files and folders
 
     Args:
@@ -25,7 +25,7 @@ def file_paths(ptmodel, task, file_base, model, pool, data_folder = '../data'):
         pool: pooling operation
                   prose - ['avg', 'max', 'sum']
                   esm - ['mean']
-        data_folder: root of data folder - ['../data'] default
+        data_folder: root of data folder - ['../../data'] default
 
     Returns:
         path_fa: path to fasta file
@@ -140,7 +140,7 @@ def emb_files_stats(path_pt):
         
 
 # Extract embeddings, target labels, sequential ids from pt files
-def read_embeddings(path_fa, path_pt, pool, emb_layer):
+def read_embeddings(path_fa, path_pt, pool, emb_layer, print_dims=True):
     """ Read embeddings from pt files
     Args:
         path_fa: path to fasta file 
@@ -148,6 +148,7 @@ def read_embeddings(path_fa, path_pt, pool, emb_layer):
         pool: pooling operation used 
         emb_layer: layer from which embeddings are extracted,
                    for prose we are using string 'layer'
+        print_dims: do not print dims when modelling 
 
     Returns:
         Xs: an array of embeddings
@@ -178,16 +179,17 @@ def read_embeddings(path_fa, path_pt, pool, emb_layer):
     # Concatenate embedding tensors from the list and convert to an array
     Xe = torch.stack(Xe, dim=0).numpy()
     
-    print(f'Shape of embeddings: \t\t{Xe.shape}')
-    print(f'Length of target label list:\t{len(ye)}')
-    print(f'Length of sequential ids list:\t{len(seq_id)}')
-    
+    if print_dims:
+        print(f'Shape of embeddings: \t\t{Xe.shape}')
+        print(f'Length of target label list:\t{len(ye)}')
+        print(f'Length of sequential ids list:\t{len(seq_id)}')
+
     return Xe, ye, seq_id
 
 
 # Check our data after extraction
 def check_with_df(Xs, ys, seq_id, n=2):
-    """Check our data using dataframe displaying only a few rows 
+    """Check our data using a dataframe and displaying only a few rows 
     Args:
         Xs: an array of embeddings
         ys: our target labels
