@@ -17,8 +17,13 @@ class ProteinOut(ProteinIn):
 # /predict endpoint
 @app.post("/predict", response_model=ProteinOut, status_code=200)
 def get_prediction(payload: ProteinIn):
-    task_in = payload.task
+    task_in = payload.task.lower()
     protein = payload.protein
+
+    # Check if task is valid
+    valid_tasks = ['acp', 'amp', 'dbp', 'dna_binding']
+    if task_in not in valid_tasks:
+        raise HTTPException(status_code=400, detail="Task not available")
 
     if task_in == 'dna_binding':
         task = 'dbp'
