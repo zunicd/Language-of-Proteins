@@ -16,7 +16,7 @@ def get_emb_folders(task, data_folder='../../data'):
     """ Prepare paths for embedding folders and fasta files
 
     Args:
-        task: protein groups - ['acp', 'amp', 'dna_binding']
+        task: protein group - ['acp', 'amp', 'dna_binding']
         data_folder: root of data folder - ['../../data'] default
 
     Returns:
@@ -27,7 +27,7 @@ def get_emb_folders(task, data_folder='../../data'):
             or
         all_fa: paths to fasta files; for 'amp'
     """
-    # Defune base folder
+    # Define base folder
     base = os.path.join(data_folder, task)
     # Initialize lists
     paths_test, test_fa = [], []
@@ -49,7 +49,7 @@ def get_emb_folders(task, data_folder='../../data'):
     
     # Prepare fasta files
     # The last root folder in the above loop is the "base"
-    # Iterate through files in the "base" and list fasta files paths
+    # Iterate through files in the "base" and list fasta file paths
     for file in files:
         # Look for fasta files (.fa extension)
         if 'fa' in file:
@@ -77,13 +77,13 @@ def fit_tune_CV(pipe, hyper_params, scorer, path_pt, X_train, y_train, task):
     """ Tune hyperparameters using GridSearchCV, fit and save models
 
     Args:
-        pipe: dictionary of models pipelines
-        hyper_params: dictionary of hyperparameters grids
+        pipe: dictionary of model pipelines
+        hyper_params: dictionary of hyperparameter grids
         scorer: metrics to evaluate the performance of the cross-validated model 
-        path_pt: path to embeding folders, used to create names of the models
+        path_pt: path to embedding folders, used to create names of the models
         X_train: features - train embedding vectors
         y_train: train target variables
-        task: protein groups - ['acp', 'amp', 'dna_binding'],
+        task: protein group - ['acp', 'amp', 'dna_binding'],
               used to name folders for saving models
 
     Returns:
@@ -123,7 +123,7 @@ def fit_tune_CV(pipe, hyper_params, scorer, path_pt, X_train, y_train, task):
 
 # Function to evaluate models and store results into a dataframe
 def evaluation(fit_models, X_test, y_test):
-        """ Evaluate models and store results into a dataframe
+    """ Evaluate models and store results into a dataframe
 
     Args:
         fit_models: dictionary of fitted models
