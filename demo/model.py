@@ -32,8 +32,6 @@ def model_details(task):
 
 # Calculate embeddings
 def embed(path_fa, pt_model, pool):
-    ## model = 'prose_dlm'
-    ## pool = 'avg'
     path_h5 = Path(BASE_DIR).joinpath(f"temp_h5.h5")
     subprocess.run(["python", "../prose/embed_sequences.py", "--model", f"{pt_model}", "--pool", f"{pool}", "-o", f"{path_h5}", f"{path_fa}"], check=True)
 

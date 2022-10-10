@@ -159,3 +159,4 @@ select {
     text-align: center;
     content: attr(data-th);
   }
+}
