@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protein Language</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+
+    <link rel="stylesheet" href="/static/css/style.css"
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+
+<body>
+    <div class="wrapper">
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" >              
+                        <img class="nav-travel" src="/static/images/FourthBrain-Logo.png" width="225" height="36">
+                    </a>
+                </div>
+            </div>
+        </nav>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-1"></div>
+                <div style='text-align:center' class="col-sm-10"><h2>FourthBrain Capstone: Learning the Language of Proteins</h2></div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-3"></div>
+                <div class="col-sm-3"><br>
+                    <form  method="post">
+                        <label for="task">Protein Classification Task:</label><br>
+                        <select name="task" required="required" id="Task">
+                            <option disabled selected value> -- select -- </option>
+                            <option value="acp">Anticancer Peptides (ACP)</option>
+                            <option value="amp">Antimicrobial Peptides (AMP)</option>
+                            <option value="dbp">DNA-Binding Proteins (DBP)</option>
+                        </select>
+                        <br>
+                        <br>
+                        <label for="protein">Protein Sequence:</label><br>
+                        <textarea  rows = "5" cols = "60" name = "protein" id="Protein" required placeholder="AFTTYKLHHG..."></textarea>
+                        <br><br>
+
+                        <button type="submit" class="btn btn-success">Submit</button>
+                    </form>
+                </div><br>                     
+            </div>
+        </div>
+        <br>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-3"></div>
+                <div class="col-sm-6">
+                    <b>{{text1}}</b>
+                    <br><br>
+                    <textarea  rows = "5" cols = "60" name = "protein" id="Protein" >{{protein}}</textarea>
+                    <br><br>
+                    <b>Model Prediction:</b>
+                    <h3> {{prediction}} </h3>                                       
+                </div>
+            </div>
+        </div><br>
+                
+</body>
