@@ -69,6 +69,8 @@ We analyzed top 10 performing `pipelines` for each class and collected data in t
 | AMP  | 3000, 1000              | 3    | 5    | NaN   | 2     | 6    | 2    | 2    | Nan  | 5    | 5    | NaN  |
 | DBP  | 14000, 2200             | 5    | 3    | 1     | 1     | 5    | 3    | 2    | 6    | 2    | NaN  | 2    |
 
+*Note: the above table shows the number of times each pipeline element appeared in the top 10 performing pipelines for each classification task.*
+
 Some conclusions from this table:
 
 - `ProSE` pretrained models outperform `ESM`, `“dlm”` and `“mt”` `ProSE` models are pretty equal.
