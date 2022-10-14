@@ -1,10 +1,10 @@
 # Modelling
 
-We used the previously computed embeddings as input to the modelling. 
+We used the previously computed embeddings as input to our models. 
 
-For each classification task there are 8 combinations, as it is showed in the table below.
+For each classification task there were 8 combinations, as shown in the table below.
 
-|       | number of p-t  models | pooling operations |
+|       | Number of pre-trained  models | Pooling operations |
 | ----- | ---------------------- | ------------------- |
 | ESM   | 2                      | 1                   |
 | ProSE | 2                      | 3                   |
@@ -16,7 +16,7 @@ We used 4 machine learning algorithms:
 - Random Forest
 - Logistic Regression
 
-and all this together give us 32 models for each classification task.
+All the different combinations of pre-trained and classification models resulted in 32 `pipelines` for each classification task.
 
 ## Modelling Pipeline
 
@@ -26,17 +26,17 @@ The image below displays the pipeline we used in this project.
 
 ## Modelling Loop
 
-For each tasks we were following the same modelling loop that includes the following steps:
+For each task we were following the same experimentational setup that includes the following steps:
 
 1. Loop through train and test embedding folders
 2. Run the function `read_embeddings()` for train embeddings to get `X_train` and `y_train`
 3. Run the function `read_embeddings()` for test embeddings to get `X_test` and `y_test`
 4. Define and print the output header
 5. Use the function `fit_tune_CV()`to to do the following:
-   - use above defined `pipelines` and `hp_grids` dictionaries and `GridSearchCV()` to get models
+   - use the above defined `pipelines` and `hyperparameter` dictionaries and `GridSearchCV()` to train models
    - save the models with `joblib`
-   - create a dictionary of the models for one set of embedding folders
-6. Run the function `evaluation()` to create an evaluation dataframe for one set of embedding folders
+   - create a dictionary of the models for each set of embedding folders
+6. Run the function `evaluation()` to create an evaluation dataframe for each set of embedding folders
 
 For "AMP" the first three steps are slightly different:
 1. Loop through embedding folders
@@ -45,9 +45,9 @@ For "AMP" the first three steps are slightly different:
 
 ## Results
 
-### Best Performers
+### Best Performing Models
 
-For each task we created a dataframe with results for all 32 models and sorted them per accuracy. In the table below we listed the best performing models for each classification task.
+For each task we created a dataframe with results for all 32 models and sorted them by accuracy. In the table below we listed the best performing models for each classification task.
 
 | Task | Best performing model | Accuracy | f1_macro |
 | ---- | --------------------- | --------------- | --------------- |
@@ -55,13 +55,13 @@ For each task we created a dataframe with results for all 32 models and sorted t
 | AMP | mt\_avg\_lr           | 0.94            | 0.94         |
 | DBP | dlm\_max\_rf          | 0.88            | 0.88           |
 
-The difference between best and worst performer was 6-8%.
+The difference between the best and worst performing models was 6-8%.
 
 Because the datasets are well balanced, accuracy and f1_macro are pretty much the same.
 
-### Top 10 Performers
+### Top 10 Performing Pipelines
 
-We analyzed top 10 performers for each class and collected data in the table below:
+We analyzed top 10 performing `pipelines` for each class and collected data in the table below:
 
 | Task | Data Size (train, test) | dlm  | mt   | esm1b | esm1v | avg  | max  | sum  | xgb  | svm  | lr   | rf   |
 | ---- | ----------------------- | ---- | ---- | ----- | ----- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
@@ -71,15 +71,15 @@ We analyzed top 10 performers for each class and collected data in the table bel
 
 Some conclusions from this table:
 
-- ProSE pretrained models outperform ESM, “dlm” and “mt” are pretty equal.
+- `ProSE` pretrained models outperform `ESM`, `“dlm”` and `“mt”` `ProSE` models are pretty equal.
 
-- Overall best performance is with “avg” pooling.
+- Overall best performance is with `“avg”` pooling.
 
-- SVM is best universal performer.
+- `SVM` is the best universal performer.
 
-- XGBoost is best for bigger files, Logistic Regression for smaller files.
+- `XGBoost` is best for bigger datasets, Logistic Regression for smaller datasets.
 
-- Random Forest performs good for “DBP”only.
+- `Random Forest` performs well for “DBP” only.
 
   
 
