@@ -63,6 +63,7 @@ Some of the limitations of our project include:
 2. We did not look for any extra examples of ACP, AMP, and DBP data to supplement the data from InstaDeep, nor were we able to get in contact with the company to discuss whether the data we received was representative of the data we should expect in production. It is therefore possible that our models will not generalize well to new data. This will require monitoring in production to ensure that the models are performing as expected.
 3. Currently, our deployment is only available locally, except for a limited time with an AWS EC2 instance using our FourthBrain IAM accounts. We would like to deploy it on a public server so that it can be accessed by anyone. In the future, we would like to set up a public deployment using AWS Lambda to be as cost-efficient as possible. This would require some additional work to ensure that the app is secure and that the server is not overloaded by too many requests.
 4. Currently, our deployment only supports classification of a single sequence at a time. In the future, we would like to add support for batch predictions, as well as the ability to upload a CSV or fasta file with sequences to classify.
+5. Our application is missing some error checks with regards to the input sequence; it does not check for invalid characters and symbols. We would like to add these checks in the future.
 
 ## References
 * [InstaDeep](https://www.instadeep.com/)
