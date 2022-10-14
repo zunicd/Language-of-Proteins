@@ -24,7 +24,7 @@ The image below displays the pipeline we used in this project.
 
 <img src="images/pipeline_hp-tuning.png" style="zoom:80%;" />
 
-## Modelling loop
+## Modelling Loop
 
 For each tasks we were following the same modelling loop that includes the following steps:
 
@@ -57,9 +57,9 @@ For each task we created a dataframe with results for all 32 models and sorted t
 
 The difference between best and worst performer was 6-8%.
 
-Because the datasets are well balanced, accuracy and f1_amcro are pretty much the same.
+Because the datasets are well balanced, accuracy and f1_macro are pretty much the same.
 
-### Top 10 prformers
+### Top 10 Performers
 
 We analyzed top 10 performers for each class and collected data in the table below:
 
@@ -73,7 +73,7 @@ Some conclusions from this table:
 
 - ProSE pretrained models outperform ESM, “dlm” and “mt” are pretty equal.
 
-- Overall best performance is with “avg” pooling
+- Overall best performance is with “avg” pooling.
 
 - SVM is best universal performer.
 
@@ -86,25 +86,3 @@ Some conclusions from this table:
 
 
 
-
-
-
-
-
-
-
-
-
-
-For each of our classification tasks, we investigated two baseline models
-
-1. Bag of Words (BoW) was used for sequence embedding, followed by a simple Neural Network which was used for binary classification
-2. [Sequence Graph Transform (SGT)](https://github.com/cran2367/sgt) was used for sequence embedding, followed by a Neural Network with the same architecture as the BoW method for binary classification
-
-Results are summarized below (Accuracy):
-| Embedding   | Model         | ACP  |AMP   |DBP   |
-| ----------- |:-------------:|-----:|-----:|-----:|
-| BoW         | NN            | 68.1 |90.6  |79.1  |
-| SGT         | NN            | 70.9 |82.5  |71.5  |
-
-The BoW does not retain any sequence information. SGT uses the sequence information, but is not pre-trained on any protein data (it can handle any sequence data from scratch). It was rather surprising to see BoW do nearly as well (for ACP) or even better (for AMP and DBP).
