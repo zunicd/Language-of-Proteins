@@ -26,7 +26,7 @@ The image below displays the pipeline we used in this project.
 
 ## Modelling Loop
 
-For each task we were following the same experimentational setup that includes the following steps:
+For each task we were following the same experimental setup that includes the following steps:
 
 1. Loop through train and test embedding folders
 2. Run the function `read_embeddings()` for train embeddings to get `X_train` and `y_train`
