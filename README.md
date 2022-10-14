@@ -45,7 +45,7 @@ We then tested a variety of classical ML and deep learning models on the embeddi
 We reported the results of our modelling in the `results` directory, after which we settled on a pipeline for each task for deployment.
 
 ## Deployment
-We deployed our models using FASTAPI and an html template. We containerized the app using Docker and deployed it on AWS using an EC2 instance. To run the app yourself locally, you can use the following commands if you have Docker installed:
+We deployed our models using FastAPI and an html template. We containerized the app using Docker and deployed it on AWS using an EC2 instance. To run the app yourself locally, you can use the following commands if you have Docker installed:
 
 ```
 docker pull zunicd/damirz_repo:proteins-2
