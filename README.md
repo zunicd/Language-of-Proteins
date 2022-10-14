@@ -53,7 +53,7 @@ docker run -d --name proteins_cont -p 8000:80 IMAGE_ID
 ```
 Note: IMAGE_ID is the ID of the image you just pulled. You can find it by running the command `docker images` and copying the ID of the image with the name `zunicd/damirz_repo:proteins-2`.
 
-You can then access the app at `http://localhost:8000/`. Pick the classification task you want to run and enter a sequence of amino acids. The app will then return the predicted label for the sequence.
+You can then access the app at `http://localhost:8000/predict`. Pick the classification task you want to run and enter a sequence of amino acids. The app will then return the predicted label for the sequence.
 
 Alternatively, you can follow the steps in the `Steps to deploy on AWS` text file in this root folder to deploy the app remotely.
 
