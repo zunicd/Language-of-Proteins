@@ -1,0 +1,20 @@
+Go to EC2 page in AWS
+Launch instance (not from a template)
+Pick your AMI (Quick Start) - look up Deep learning pytorch, find Deep Learning AMI GPU Pytorch 1.12.1 (Amazon Linux 2) 20221005
+Pick t2.large (8 GB of memory to fit our Docker image and the pretrained model)
+Create new key pair, proteins-capstone, default options RSA and .pem and save the file in your local system.
+Keep default size - 45 GB
+Launch instance
+Click on instance, go to security tab, click on highlighted link under Security groups, should be a name like sg-01bb89a4a999991de (launch-wizard-40)
+Go to inbound rules and click Edit inbound rules.
+Add 2 new security groups alongside the default group (IPv4 SSH TCP group that uses port 20): IPv4 Custom TCP on port 8000; IPv6 Custom TCP on port 8000.
+Go back to instance and click connect
+In Connect to instance, go to SSH client tab
+(If you work in WSL and are having issues changing permissions of the pem file) Move pem key pair file you downloaded to somewhere on your WSL drive rather than on your main C drive.
+Run the command chmod 400 proteins-capstone.pem in the same folder to change permissions
+Then run the command ssh -i "proteins-capstone.pem" root@ec2-18-224-202-34.us-east-2.compute.amazonaws.com, or whatever the Connect to instance page tells you to run
+If the above doesn't work and tells you to login as ec2-user, just change the root like this: ssh -i "proteins-capstone.pem" ec2-user@ec2-18-224-202-34.us-east-2.compute.amazonaws.com
+Run the command docker pull zunicd/damirz_repo:proteins-2 once you're logged into the session, docker should already be turned on
+Note: Docker image is approximately 5.59 GB
+Run the container using docker run -d --name proteins_cont -p 8000:80 IMAGE_ID (You can get IMAGE_ID by running the command docker images and copying the Image ID of the image you just pulled)
+Go to the public IP address shown on the main page of the instance and add the port and endpoint to the url like this: http://18.224.202.34:8000/predict
