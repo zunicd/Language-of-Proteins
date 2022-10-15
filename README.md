@@ -84,6 +84,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Contact
 If you have any questions or issues running the deployment, please open an issue in this repo.
-
-## Disclaimer
-This project is for educational purposes only. The results of this project are not intended to be used for medical purposes.
