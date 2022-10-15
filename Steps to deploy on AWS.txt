@@ -1,4 +1,4 @@
-Go to EC2 page in AWS
+Go to EC2 page in AWS (make sure you're in east-2, Ohio location)
 Launch instance (not from a template)
 Pick your AMI (Quick Start) - look up Deep learning pytorch, find Deep Learning AMI GPU Pytorch 1.12.1 (Amazon Linux 2) 20221005
 Pick t2.large (8 GB of memory to fit our Docker image and the pretrained model)
@@ -17,4 +17,4 @@ If the above doesn't work and tells you to login as ec2-user, just change the ro
 Run the command docker pull zunicd/damirz_repo:proteins-2 once you're logged into the session, docker should already be turned on
 Note: Docker image is approximately 5.59 GB
 Run the container using docker run -d --name proteins_cont -p 8000:80 IMAGE_ID (You can get IMAGE_ID by running the command docker images and copying the Image ID of the image you just pulled)
-Go to the public IP address shown on the main page of the instance and add the port and endpoint to the url like this: http://18.224.202.34:8000/predict
+Go to the public IP address shown on the main page of the instance and add the port and endpoint to the url like this: http://18.224.202.34:8000/predict (Be patient, it might take a few minutes for the instance to "warm up")
