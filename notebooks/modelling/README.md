@@ -87,4 +87,3 @@ Some conclusions from this table:
 
 
 
-
