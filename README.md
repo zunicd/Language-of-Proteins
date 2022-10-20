@@ -1,7 +1,7 @@
 # Protein Language Capstone
 FourthBrain Capstone: **Learning the Language of Proteins** (InstaDeep Industry Project)
 
-Group Members: Damir, Michal, and Tikka
+Group Members: Damir Zunic, Michal Roztocki, and Tikeswar Naik
 
 ## Background
 Drug development and discovery is a time and labor intensive process that has the potential to be enhanced and improved by next-generation protein sequencing techniques.
@@ -41,6 +41,8 @@ We used the following pre-trained protein language models to get embeddings for 
 
 We then tested a variety of classical ML and deep learning models on the embeddings to predict the labels for the sequences.
 
+For more details on the embedding procedure, check the [readme](https://github.com/MichalRoztocki/Protein-Language-Capstone/tree/main/notebooks/embeddings) in the embeddings subfolder.
+
 ## Results
 We reported the results of our modelling in the `results` directory, after which we settled on a pipeline for each task for deployment.
 
@@ -55,7 +57,9 @@ Note: IMAGE_ID is the ID of the image you just pulled. You can find it by runnin
 
 You can then access the app at `http://localhost:8000/predict`. Pick the classification task you want to run and enter a sequence of amino acids. The app will then return the predicted label for the sequence.
 
-Alternatively, you can follow the steps in the `Steps to deploy on AWS` text file in this root folder to deploy the app remotely.
+Alternatively, you can follow the steps in the `Steps to deploy on AWS` text file in this root folder to deploy the app remotely. 
+
+For more details, check the [readme](https://github.com/MichalRoztocki/Protein-Language-Capstone/tree/main/demo) in the demo subfolder.
 
 ## Limitations
 Some of the limitations of our project include:
