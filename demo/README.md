@@ -1,6 +1,6 @@
 # Application
 
-For application we have chosen the best performing model for each classification task.
+For our application we have chosen the best performing model for each classification task.
 
 | Task | Best performing model | Accuracy |
 | ---- | --------------------- | --------------- |
