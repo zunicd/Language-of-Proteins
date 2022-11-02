@@ -1,4 +1,5 @@
-# Protein Language Capstone
+# Language of Proteins
+
 FourthBrain Capstone: **Learning the Language of Proteins** (InstaDeep Industry Project)
 
 Group Members: Damir Zunic, Michal Roztocki, and Tikeswar Naik
@@ -6,6 +7,7 @@ Group Members: Damir Zunic, Michal Roztocki, and Tikeswar Naik
 Our full presentation deck can be found [here](https://docs.google.com/presentation/d/1Nkb5mGteHTs4gDnIVz04h6ewfL-5HVgIB_elUNq3IZU/edit?usp=sharing).
 
 ## Background
+
 Drug development and discovery is a time and labor intensive process that has the potential to be enhanced and improved by next-generation protein sequencing techniques.
 
 Recent breakthroughs in Natural Language Processing (NLP) and training of large transformer models have paved the way for new types of domain-specific deep language models. In the biological domain, development of general-purpose protein language models that are capable of predicting specific protein types could, among other things, pave the way to more effective, safer cancer treatments.
