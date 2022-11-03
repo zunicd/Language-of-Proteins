@@ -19,8 +19,10 @@
 
 These are the files that we received from InstaDeep for each task:
 
-acp: 					test_data.csv (344, 2)  + train_data.csv (1378, 2)
+acp: 					test_data.csv (344, 2)  + train_data.csv (1378, 2) 
+
 amp: 					all_data.csv (4042, 3)
+
 dna_binding:		test.csv (2272, 4)  + train.csv (14189, 4)
 
 The files are located in the corresponding task folders `../../data/<task_folder>`.
@@ -43,7 +45,7 @@ These are the cleaning steps we performed:
 
 Finally, we created separate versions of data files for ESM and ProSE: *train_esm.csv*, *test_esm.csv*, *train_prose.csv*, *test_prose.csv.
 
-For more details refer to the notebook [DBP - Duplicates and seq >1022.ipynb](https://github.com/MichalRoztocki/Protein-Language-Capstone/blob/main/notebooks/embeddings/DBP%20-%20Duplicates%20and%20seq%20%3E1022.ipynb).
+For more details refer to the notebook [DBP - Duplicates and seq >1022.ipynb](https://github.com/zunicd/Language-of-Proteins/blob/main/notebooks/embeddings/DBP%20-%20Duplicates%20and%20seq%20%3E1022.ipynb).
 
 ## Step 2: .csv File Conversion
 
@@ -92,7 +94,7 @@ The function also generates missing sequence ids for ACP datasets:
 
 **test** - Protein_seq_ts0001, Protein_seq_ts0002;..., Protein_seq_tsnnnn
 
-More details can be found in the notebook [File Conversion - csv to fasta.ipynb](https://github.com/MichalRoztocki/Protein-Language-Capstone/blob/main/notebooks/embeddings/File%20Conversion%20-%20csv%20to%20fasta.ipynb)
+More details can be found in the notebook [File Conversion - csv to fasta.ipynb](https://github.com/zunicd/Language-of-Proteins/blob/main/notebooks/embeddings/File%20Conversion%20-%20csv%20to%20fasta.ipynb)
 
 ## Step 3: Compute Embeddings
 

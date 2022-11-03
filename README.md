@@ -45,7 +45,7 @@ We used the following pre-trained protein language models to get embeddings for 
 
 We then tested a variety of classical ML and deep learning models on the embeddings to predict the labels for the sequences.
 
-For more details on the embedding procedure, check the [readme](https://github.com/MichalRoztocki/Protein-Language-Capstone/tree/main/notebooks/embeddings) in the embeddings subfolder.
+For more details on the embedding procedure, check the [readme](https://github.com/zunicd/Language-of-Proteins/tree/main/notebooks/embeddings) in the embeddings subfolder.
 
 ## Results
 We reported the results of our modelling in the `results` directory, after which we settled on a pipeline for each task for deployment.
@@ -63,9 +63,10 @@ You can then access the app at `http://localhost:8000/predict`. Pick the classif
 
 Alternatively, you can follow the steps in the `Steps to deploy on AWS` text file in this root folder to deploy the app remotely. 
 
-For more details, check the [readme](https://github.com/MichalRoztocki/Protein-Language-Capstone/tree/main/demo) in the demo subfolder.
+For more details, check the [readme](https://github.com/zunicd/Language-of-Proteins/tree/main/demo) in the demo subfolder.
 
 ## Limitations
+
 Some of the limitations of our project include:
 1. Our data was perfectly balanced for each classification task, which is almost certainly not representative of the actual appearance frequency of each of these peptides. We did not address this issue, as we were unable to ascertain the actual distribution for each type of protein in the expected space of proteins, if that is even possible. This could lead to a bias in our predictions, and as such should be addressed in future work.
 2. We did not look for any extra examples of ACP, AMP, and DBP data to supplement the data from InstaDeep, nor were we able to get in contact with the company to discuss whether the data we received was representative of the data we should expect in production. It is therefore possible that our models will not generalize well to new data. This will require monitoring in production to ensure that the models are performing as expected.
@@ -85,6 +86,7 @@ Bepler, T., Berger, B. Learning protein sequence embeddings using information fr
 Rives, A., Meier, J., Sercu, T., Goyal, S., Lin, Z., Liu, J., Guo, D., Ott, M., Zitnick, C., Ma, J., & Fergus, R. (2019). Biological Structure and Function Emerge from Scaling Unsupervised Learning to 250 Million Protein Sequences. bioRxiv.
 
 ## Acknowledgements
+
 We would like to thank InstaDeep for providing us with the data.
 
 ## License
