@@ -19,11 +19,11 @@
 
 These are the files that we received from InstaDeep for each task:
 
-acp: 					test_data.csv (344, 2)  + train_data.csv (1378, 2) 
-
-amp: 					all_data.csv (4042, 3)
-
-dna_binding:		test.csv (2272, 4)  + train.csv (14189, 4)
+| Task         | File 1         | File 1 - Dimensions | File 2          | File 2 - Dimensions |
+| ------------ | -------------- | ------------------- | --------------- | ------------------- |
+| acp          | test\_data.csv | (344, 2)            | train\_data.csv | (1378, 2)           |
+| amp          | all\_data.csv  | (4042, 3)           |                 |                     |
+| dna\_binding | test.csv       | (2272, 4)           | train.csv       | (14189, 4)          |
 
 The files are located in the corresponding task folders `../../data/<task_folder>`.
 
