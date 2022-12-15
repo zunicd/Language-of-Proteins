@@ -11,6 +11,19 @@ COPY ./demo/ /app/
 COPY ./saved_models/best_models/ /saved_models/best_models/
 COPY ./prose/ /prose/
 
+RUN if [[ -f /app/Procfile ]]; then \
+  /render/build-scripts/create-process-types "/app/Procfile"; \
+fi;
+
+COPY --chown=1000:1000 /render /render/
+COPY --chown=1000:1000 /app /app/
+
+USER 1000:1000
+
 WORKDIR /app
+
+ENTRYPOINT [ "/render/setup-env" ]
+CMD [ "/render/process/web" ]
+
 # CMD ["uvicorn", "main:app"]
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+# CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
