@@ -12,4 +12,5 @@ COPY ./saved_models/best_models/ /saved_models/best_models/
 COPY ./prose/ /prose/
 
 WORKDIR /app
-CMD ["uvicorn", "main:app"]
+# CMD ["uvicorn", "main:app"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "10000"]
