@@ -4,7 +4,7 @@ FourthBrain Capstone: **Learning the Language of Proteins** (InstaDeep Industry 
 
 Group Members: Damir Zunic, Michal Roztocki, and Tikeswar Naik
 
-Our full presentation deck can be found [here](https://docs.google.com/presentation/d/1Nkb5mGteHTs4gDnIVz04h6ewfL-5HVgIB_elUNq3IZU/edit?usp=sharing).
+Our full presentation deck can be found [here](https://docs.google.com/presentation/d/1no5DAa89q0E3RuRHps87ZcibQ7QjYcO0r0hgj_1juh8/edit?usp=sharing).
 
 ## Background
 
